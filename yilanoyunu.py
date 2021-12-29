@@ -8,7 +8,7 @@ pencere = turtle.Screen()
 pencere.title("Yılan Oyunu")
 pencere.bgcolor('lightgreen')
 pencere.setup(width=600, height=600)
-pencere.tracer(0)
+pencere.tracer(0) 
 
 kafa = turtle.Turtle()
 kafa.speed(0)
@@ -118,4 +118,20 @@ while True:
         kuyruklar[0].goto(x, y)
 
     move()
+
+    for i in kuyruklar:
+        if i.distance(kafa) < 20:
+            time.sleep(1)
+            kafa.goto(-200, 0)
+            kafa.direction = 'stop'
+
+            for kuyruk in kuyruklar:
+                kuyruk.goto(1000, 1000)
+            
+            kuyruklar = []
+            puan = 0
+            yaz.clear()
+            yaz.write('Puan: {}'.format(puan), align='center', font=('Courier', 24, 'normal'))
+
+
     time.sleep(hiz)
