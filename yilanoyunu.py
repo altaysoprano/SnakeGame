@@ -3,6 +3,8 @@ import time
 import random 
 
 hiz = 0.15
+yemeksayisi = 0
+kurbagasayisi = 0
 
 pencere = turtle.Screen()
 pencere.title("Yılan Oyunu")
@@ -15,6 +17,7 @@ turtle.register_shape('yilankafasol.gif')
 turtle.register_shape('yilankafasag.gif')
 turtle.register_shape('yilankafaasagi.gif')
 turtle.register_shape('elma.gif')
+turtle.register_shape('kurbaga.gif')
 
 kafa = turtle.Turtle()
 kafa.shape('yilankafaasagi.gif')
@@ -32,6 +35,13 @@ yemek.color('red')
 yemek.penup()
 yemek.goto(0, 0)
 yemek.shapesize(0.80, 0.80)
+
+kurbaga = turtle.Turtle()
+kurbaga.speed(0)
+kurbaga.shape('kurbaga.gif')
+kurbaga.color('red')
+kurbaga.penup()
+kurbaga.goto(1000, 1000)
 
 kuyruklar = []
 
@@ -80,6 +90,10 @@ def goLeft():
         kafa.direction = 'left'
         kafa.shape('yilankafasol.gif')
 
+def kurbagaMove():
+    x = kurbaga.xcor()
+    kurbaga.setx(x-20)
+
 pencere.listen()
 pencere.onkey(goUp, 'Up')
 pencere.onkey(goDown, 'Down')
@@ -100,6 +114,7 @@ while True:
         kuyruklar = []
         puan = 0
         hiz = 0.15
+        yemeksayisi = 0
         yaz.clear()
         yaz.write('Puan: {}'.format(puan), align='center', font=('Courier', 24, 'normal'))
 
@@ -110,6 +125,7 @@ while True:
 
         puan = puan + 10
         hiz = hiz - 0.003
+        yemeksayisi = yemeksayisi + 1
         yaz.clear()
         yaz.write('Puan: {}'.format(puan), align='center', font=('Courier', 24, 'normal'))
 
@@ -119,7 +135,7 @@ while True:
         yeniKuyruk.color('green')
         yeniKuyruk.penup()
         kuyruklar.append(yeniKuyruk)
-
+        
     for i in range(len(kuyruklar) - 1, 0, -1):
         x = kuyruklar[i - 1].xcor()
         y = kuyruklar[i - 1].ycor()
@@ -130,6 +146,19 @@ while True:
         y = kafa.ycor()
         kuyruklar[0].goto(x, y)
 
+    if kurbagasayisi==1:
+        if kurbaga.xcor() > 300 or kurbaga.xcor() < -300 or kurbaga.ycor() > 300 or kurbaga.ycor() < -300:
+            kurbagasayisi = 0
+        else:
+            kurbagaMove()  
+
+    if yemeksayisi%3 == 0 and yemeksayisi != 0:
+        if kurbagasayisi==0:
+            x = random.randint(0, 14)*20
+            y = random.randint(0, 14)*20
+            kurbaga.goto(x, y)
+            kurbagasayisi = 1
+        
     move()
 
     for i in kuyruklar:
@@ -144,8 +173,8 @@ while True:
             kuyruklar = []
             puan = 0
             hiz = 0.15
+            yemeksayisi = 0
             yaz.clear()
             yaz.write('Puan: {}'.format(puan), align='center', font=('Courier', 24, 'normal'))
-
-
+    
     time.sleep(hiz)
