@@ -5,6 +5,7 @@ import random
 hiz = 0.15
 yemeksayisi = 0
 kurbagasayisi = 0
+kurbagagittiMi = False
 
 pencere = turtle.Screen()
 pencere.title("Yılan Oyunu")
@@ -122,6 +123,7 @@ while True:
         x = random.randint(0, 14)*20
         y = random.randint(0, 14)*20
         yemek.goto(x, y)
+        kurbagagittiMi = False
 
         puan = puan + 10
         hiz = hiz - 0.003
@@ -149,11 +151,12 @@ while True:
     if kurbagasayisi==1:
         if kurbaga.xcor() > 300 or kurbaga.xcor() < -300 or kurbaga.ycor() > 300 or kurbaga.ycor() < -300:
             kurbagasayisi = 0
+            kurbagagittiMi = True
         else:
             kurbagaMove()  
 
     if yemeksayisi%3 == 0 and yemeksayisi != 0:
-        if kurbagasayisi==0:
+        if kurbagasayisi==0 and kurbagagittiMi==False:
             x = random.randint(0, 14)*20
             y = random.randint(0, 14)*20
             kurbaga.goto(x, y)
