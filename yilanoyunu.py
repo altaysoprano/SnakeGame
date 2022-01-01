@@ -6,6 +6,7 @@ hiz = 0.15
 yemeksayisi = 0
 kurbagasayisi = 0
 kurbagagittiMi = False
+rastgeleSayi = random.randint(1,4)
 
 pencere = turtle.Screen()
 pencere.title("Yılan Oyunu")
@@ -91,9 +92,17 @@ def goLeft():
         kafa.direction = 'left'
         kafa.shape('yilankafasol.gif')
 
-def kurbagaMove():
+def kurbagaMove(yon):
     x = kurbaga.xcor()
-    kurbaga.setx(x-20)
+    y = kurbaga.ycor()
+    if yon=='sag':
+        kurbaga.setx(x+20)
+    if yon=='sol':
+        kurbaga.setx(x-20)
+    if yon=='asagi':
+        kurbaga.sety(y-20)
+    if yon=='yukari':
+        kurbaga.sety(y+20)
 
 pencere.listen()
 pencere.onkey(goUp, 'Up')
@@ -153,14 +162,31 @@ while True:
             kurbagasayisi = 0
             kurbagagittiMi = True
         else:
-            kurbagaMove()  
+            if rastgeleSayi==1: 
+                yon = 'sag'
+            if rastgeleSayi==2:
+                yon = 'sol'
+            if rastgeleSayi==3:
+                yon = 'asagi'
+            if rastgeleSayi==4:
+                yon = 'yukari'
+            kurbagaMove(yon)  
 
     if yemeksayisi%3 == 0 and yemeksayisi != 0:
         if kurbagasayisi==0 and kurbagagittiMi==False:
+            rastgeleSayi = random.randint(1,4)
             x = random.randint(0, 14)*20
             y = random.randint(0, 14)*20
             kurbaga.goto(x, y)
             kurbagasayisi = 1
+
+    if kafa.distance(kurbaga) < 30:
+        kurbaga.goto(1000, 1000)
+        kurbagagittiMi = False
+
+        puan = puan + 25
+        yaz.clear()
+        yaz.write('Puan: {}'.format(puan), align='center', font=('Courier', 24, 'normal'))
         
     move()
 
